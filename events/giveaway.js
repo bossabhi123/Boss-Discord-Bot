@@ -8,7 +8,7 @@ let config = require('../config/config.json');
 /// giveawat bot
 
 // Initialise discord giveaways
-const { GiveawaysManager } = require("discord-giveaways");
+/*const { GiveawaysManager } = require("discord-giveaways");
 client.giveawaysManager = new GiveawaysManager(client, {
     updateCountdownEvery: 3000,
     storage : "../giveaways.json",
@@ -17,7 +17,7 @@ client.giveawaysManager = new GiveawaysManager(client, {
         embedColor: ee.color,
         reaction: "🎉"
     }
-});
+});*/
 
 
 /* Client's GiveawaysManager Events */
