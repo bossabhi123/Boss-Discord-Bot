@@ -69,7 +69,7 @@ function requirehandlers() {
 } requirehandlers();
 
 keepAlive();
-client.login(process.env.DISCORD_TOKEN)
+client.login(process.env.Bot_TOKEN)
 
 //client.login(config.token);
 
