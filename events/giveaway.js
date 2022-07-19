@@ -21,7 +21,7 @@ client.giveawaysManager = new GiveawaysManager(client, {
 
 
 /* Client's GiveawaysManager Events */
-client.giveawaysManager.on(
+/*client.giveawaysManager.on(
     "giveawayReactionAdded",
     async (giveaway, reactor, messageReaction) => {
         if (reactor.user.bot) return;
@@ -95,4 +95,4 @@ client.giveawaysManager.on('giveawayReactionRemoved', (giveaway, member, reactio
         )
         .setFooter("Think It was a mistake? Go react again!")
     );
-});
+});*/
