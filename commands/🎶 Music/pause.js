@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
- 
+const distube = require("../../utils/distubeClient");
 
 module.exports = {
   name: "pause",
@@ -53,12 +53,12 @@ module.exports = {
     })
 
     // if already paushed
-    if (client.distube.isPaused(message))  return message.channel.send(
+    if (distube.isPaused(message))  return message.channel.send(
          new MessageEmbed()
                 .setColor(ee.color)
         .setDescription(`Song Already Paushed....`)
     )
-    client.distube.pause(message);
+    distube.pause(message);
 
     message.channel.send(
        new MessageEmbed()
