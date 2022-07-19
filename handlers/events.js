@@ -1,4 +1,8 @@
-const { readdirSync } = require("fs");
+const { readFileSync , readdirSync} = require("fs");
+const ascii = require("ascii-table");
+let table = new ascii("Events");
+table.setHeading("Events", "Load status");
+const allevents = [];
 module.exports = async (client) => {
   try {
     readdirSync("./events/").forEach((file) => {
@@ -14,7 +18,6 @@ module.exports = async (client) => {
         }
       }
     });
-    console.log('events loaded !!')
   } catch (e) {
     console.log(String(e.stack).bgRed)
   }
