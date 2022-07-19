@@ -69,6 +69,8 @@ function requirehandlers() {
 } requirehandlers();
 
 keepAlive();
-client.login(config.token);
+client.login(process.env.token);
+
+//client.login(config.token);
 
 module.exports.requirehandlers = requirehandlers;
