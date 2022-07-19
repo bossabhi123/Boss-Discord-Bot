@@ -1,7 +1,10 @@
 {
-  "token": "Bot_TOKEN",
-  "prefix": "??",
-  "ownerIDS": ["882481863661342770"],
+  "token": "OTU1NTI5NTkyMzY4NjYwNDg0.GgUy-s.xkC_qC0vHPDog0jTDbAvcqhyPEe30-PwmqNkSI",
+  "prefix": "b!",
+  "ownerIDS": [
+    "608906986746150912"
+  ],
+  "mongo": "mongodb+srv://bossabhi123:bossabhi@cluster0.li6khut.mongodb.net/?retryWrites=true&w=majority",
   "everyoneMention": false,
   "hostedBy": true,
   "customFilters": {
