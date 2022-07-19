@@ -3,7 +3,7 @@ const { Client, Message, MessageEmbed, Collection } = require("discord.js");
 const colors = require("colors");
 const fs = require("fs");
 const emojis = require("./config/emojis.json")
-//const config = require("./config/config.json")
+const config = require("./config/config.json")
 const keepAlive = require("./server");
 // require('canvas').registerFont("Genta.ttf", {
 //   family: "Genta"
