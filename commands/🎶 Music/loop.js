@@ -1,96 +1,126 @@
-const config = require(`${process.cwd()}/structures/botconfig/config.json`);
-const {
-    Client,
-    Message,
-    MessageEmbed
-} = require('discord.js');
+const { Client, Message, MessageEmbed } = require("discord.js");
+var ee = require("../../config/embed.json");
+var config = require("../../config/config.json");
+const distube = require("../../utils/distubeClient");
 
 module.exports = {
-    name: 'loop',
-    aliases: [],
-    usage: '',
-    description: '',
-    category: "music",
-    cooldown: 0,
-    userPermissions: "",
-    botPermissions: "",
-    ownerOnly: false,
-    toggleOff: false,
+  name: "loop",
+  aliases: ["s"],
+  category: "🎶 Music",
+  permissions: " ",
+  description: "lopp Playing Song",
+  usage: "",
+  /**
+   * @param {Client} client
+   * @param {Message} message
+   * @param {String[]} args
+   */
+  run: async (client, message, args) => {
 
-    /**
-     * @param {Client} client 
-     * @param {Message} message
-     * @param {String[]} args
-     */
+    const { channel } = message.member.voice;
 
-    async execute(client, message, args, ee) {
-        try {
+    //if member not connected return error
+    if (!channel)
+      return message.channel
+        .send(
+           new MessageEmbed()
+                .setColor(ee.color).setDescription(
+            `Please Join Voice Channel To Loop Song`
+          )
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
 
-            const {
-                member,
-                guild,
-            } = message;
+    //If Bot not connected, return error
+    if (!message.guild.me.voice.channel)
+      return message.channel
+        .send(
+           new MessageEmbed()
+                .setColor(ee.color).setDescription(
+            `Nothing Playing In Voice Channel To Loop`
+          )
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
 
-            const {
-                channel
-            } = member.voice;
+    //if they are not in the same channel, return error only check if connected
+    if (
+      message.guild.me.voice.channel &&
+      channel.id != message.guild.me.voice.channel.id
+    )
+      return message.channel
+        .send(
+           new MessageEmbed()
+                .setColor(ee.color).setDescription(
+            `Please Join My Voice Channel ${message.guild.me.voice.channel.name}`
+          )
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
 
+    if (!args[0])
+      return message.channel
+        .send(
+           new MessageEmbed()
+                .setColor(ee.color).setDescription(
+            " Please add the Loop style Options wanna change",
+            `Valid Options:\n\n\`0\`   /   \`1\`   /   \`2\`\n\`off\` / \`song\` / \`queue\``
+          )
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
 
-            const VoiceChannel = member.voice.channel;
+    //set variable
+    let loopis = args[0];
+    if (args[0].toString().toLowerCase() === "song") loopis = "1";
+    else if (args[0].toString().toLowerCase() === "queue") loopis = "2";
+    else if (args[0].toString().toLowerCase() === "off") loopis = "0";
+    else if (args[0].toString().toLowerCase() === "s") loopis = "1";
+    else if (args[0].toString().toLowerCase() === "q") loopis = "2";
+    else if (args[0].toString().toLowerCase() === "disable") loopis = "0";
+    loopis = Number(loopis);
 
-            if (!VoiceChannel) return message.reply({
-                embeds: [new MessageEmbed()
-                    .setColor(ee.wrongcolor)
-                    .setTimestamp()
-                    .setTitle(`${client.allEmojis.x} Please Join a Voice Channel`)
-                ]
-            });
-
-            if (channel.userLimit != 0 && channel.full)
-                return message.reply({
-                    embeds: [new MessageEmbed()
-                        .setColor(ee.wrongcolor)
-                        .setFooter(ee.footertext, ee.footericon)
-                        .setTitle(`Your Voice Channel is full, I can't join!`)
-                    ]
-                });
-
-
-            if (guild.me.voice.channelId && VoiceChannel.id !== guild.me.voice.channelId) return message.reply({
-                embeds: [new MessageEmbed()
-                    .setColor(ee.wrongcolor)
-                    .setTimestamp()
-                    .setDescription(`**I am already playing music in <#${guild.me.voice.channelId}>**`)
-                ]
-            });
-
-            const queue = await client.distube.getQueue(VoiceChannel);
-            if (!queue) return message.reply({
-                embeds: [new MessageEmbed()
-                    .setColor(ee.wrongcolor)
-                    .setTimestamp()
-                    .setTitle(`${client.allEmojis.x} There is no Song in the Queue.`)
-                ]
-            });
-
-            let Mode2 = await client.distube.setRepeatMode(queue);
-            return message.reply({
-                embeds: [new MessageEmbed()
-                    .setColor(ee.color)
-                    .setTimestamp()
-                    .setTitle(`${client.allEmojis.music.loop} Loop Mode is set to: \`${Mode2 = Mode2 ? Mode2 == 2 ? "Queue" : "Song" : "Off"}\``)
-                ]
-            });
-
-
-        } catch (e) {
-            console.log(e)
-            return message.reply({
-                embeds: [new MessageEmbed()
-                    .setTitle(`⛔ Error`)
-                    .setDescription(`${e}`)
-                ]
-            })
-        }
+    if (0 <= loopis && loopis <= 2) {
+      await distube.setRepeatMode(message, parseInt(args[0]));
+      message.channel
+        .send(
+           new MessageEmbed()
+                .setColor(ee.color).setDescription(
+            "Repeat mode set to:",
+            `${args[0]
+              .replace("0", "OFF")
+              .replace("1", "Repeat song")
+              .replace("2", "Repeat Queue")}`
+          )
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
+    } else {
+      message.channel
+        .send(
+           new MessageEmbed()
+                .setColor(ee.color).setDescription(
+            `Please use a number between **0** and **2**   |   *(0: disabled, 1: Repeat a song, 2: Repeat all the queue)*`
+          )
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
     }
-}
+    message.channel
+      .send(
+         new MessageEmbed()
+                .setColor(ee.color).setDescription(
+          `Song Looped By <@${message.author.id}>`
+        )
+      )
+      .then((msg) => {
+        msg.delete({ timeout: 5000 });
+      });
+  },
+};

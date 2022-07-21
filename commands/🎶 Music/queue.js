@@ -1,97 +1,82 @@
-const config = require(`${process.cwd()}/structures/botconfig/config.json`);
-const {
-    Client,
-    Message,
-    MessageEmbed
-} = require('discord.js');
+const { Client, Message, MessageEmbed } = require("discord.js");
+var ee = require("../../config/embed.json");
+var config = require("../../config/config.json");
+const distube = require("../../utils/distubeClient");
 
 module.exports = {
-    name: 'queue',
-    aliases: [],
-    usage: '',
-    description: '',
-    category: "music",
-    cooldown: 0,
-    userPermissions: "",
-    botPermissions: "",
-    ownerOnly: false,
-    toggleOff: false,
+  name: "queue",
+  aliases: ["qu"],
+  category: "🎶 Music",
+  permissions: " ",
+  description: "Show Queue of Current Song",
+  usage: "",
+  /**
+   * @param {Client} client
+   * @param {Message} message
+   * @param {String[]} args
+   */
+  run: async (client, message, args) => {
+    const { channel } = message.member.voice;
 
-    /**
-     * @param {Client} client 
-     * @param {Message} message
-     * @param {String[]} args
-     */
+    //if member not connected return error
+    if (!channel)
+      return message.channel
+        .send(
+           new MessageEmbed()
+                .setColor(ee.color).setDescription(
+            `Please Join Voice Channel To Resume Song`
+          )
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
 
-    async execute(client, message, args, ee) {
-        try {
+    //If Bot not connected, return error
+    if (!message.guild.me.voice.channel)
+      return message.channel
+        .send(
+           new MessageEmbed()
+                .setColor(ee.color).setDescription(`Nothing Playing In Voice Channel`)
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
 
-            const {
-                member,
-                guild,
-            } = message;
+    //if they are not in the same channel, return error only check if connected
+    if (
+      message.guild.me.voice.channel &&
+      channel.id != message.guild.me.voice.channel.id
+    )
+      return message.channel
+        .send(
+           new MessageEmbed()
+                .setColor(ee.color).setDescription(
+            `Please Join My Voice Channel ${message.guild.me.voice.channel.name}`
+          )
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 5000 });
+        });
 
-            const {
-                channel
-            } = member.voice;
+    //get the queue
+    let queue = distube.getQueue(message);
 
-
-            const VoiceChannel = member.voice.channel;
-
-            if (!VoiceChannel) return message.reply({
-                embeds: [new MessageEmbed()
-                    .setColor(ee.wrongcolor)
-                    .setTimestamp()
-                    .setTitle(`${client.allEmojis.x} Please Join a Voice Channel`)
-                ]
-            });
-
-            if (channel.userLimit != 0 && channel.full)
-                return message.reply({
-                    embeds: [new MessageEmbed()
-                        .setColor(ee.wrongcolor)
-                        .setFooter(ee.footertext, ee.footericon)
-                        .setTitle(`Your Voice Channel is full, I can't join!`)
-                    ]
-                });
-
-
-            if (guild.me.voice.channelId && VoiceChannel.id !== guild.me.voice.channelId) return message.reply({
-                embeds: [new MessageEmbed()
-                    .setColor(ee.wrongcolor)
-                    .setTimestamp()
-                    .setDescription(`**I am already playing music in <#${guild.me.voice.channelId}>**`)
-                ]
-            });
-
-            const queue = await client.distube.getQueue(VoiceChannel);
-            if (!queue) return message.reply({
-                embeds: [new MessageEmbed()
-                    .setColor(ee.wrongcolor)
-                    .setTimestamp()
-                    .setTitle(`${client.allEmojis.x} There is no Song in the Queue.`)
-                ]
-            });
-
-            const q = queue.songs.map((song, i) => `${i === 0 ? "**Playing:**" : `**${i})**`} ${song.name} - \`${song.formattedDuration}\``).join("\n").substr(0, 4000)
-
-            return message.reply({
-                embeds: [new MessageEmbed()
-                    .setColor(ee.color)
-                    .setTitle(`${client.allEmojis.music.queue} Queue of ${message.guild.name}`)
-                    .setDescription(`${q}`)
-                ]
-            });
-
-
-        } catch (e) {
-            console.log(e)
-            return message.reply({
-                embeds: [new MessageEmbed()
-                    .setTitle(`⛔ Error`)
-                    .setDescription(`${e}`)
-                ]
-            })
-        }
-    }
-}
+    message.channel
+      .send(
+         new MessageEmbed()
+                .setColor(ee.color).setDescription(
+          "Current queue:\n" +
+            queue.songs
+              .map(
+                (song, id) =>
+                  `**${id + 1}**. ${song.name} - \`${song.formattedDuration}\``
+              )
+              .slice(0, 10)
+              .join("\n")
+        )
+      )
+      .then((msg) => {
+        msg.delete({ timeout: 5000 });
+      });
+  },
+};
