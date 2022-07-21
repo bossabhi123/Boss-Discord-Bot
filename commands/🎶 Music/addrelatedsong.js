@@ -6,8 +6,8 @@ const {
 } = require('discord.js');
 
 module.exports = {
-    name: 'volume',
-    aliases: ["vol"],
+    name: 'addrelatedsong',
+    aliases: [],
     usage: '',
     description: '',
     category: "music",
@@ -36,8 +36,6 @@ module.exports = {
             } = member.voice;
 
 
-            const search = args.join(" ")
-
             const VoiceChannel = member.voice.channel;
 
             if (!VoiceChannel) return message.reply({
@@ -45,7 +43,7 @@ module.exports = {
                     .setColor(ee.wrongcolor)
                     .setTimestamp()
                     .setTitle(`${client.allEmojis.x} Please Join a Voice Channel`)
-                ],
+                ]
             });
 
             if (channel.userLimit != 0 && channel.full)
@@ -54,7 +52,7 @@ module.exports = {
                         .setColor(ee.wrongcolor)
                         .setFooter(ee.footertext, ee.footericon)
                         .setTitle(`Your Voice Channel is full, I can't join!`)
-                    ],
+                    ]
                 });
 
 
@@ -62,9 +60,8 @@ module.exports = {
                 embeds: [new MessageEmbed()
                     .setColor(ee.wrongcolor)
                     .setTimestamp()
-                    .setTitle(`I am already playing music in <#${guild.me.voice.channelId}>`)
-                ],
-
+                    .setDescription(`**I am already playing music in <#${guild.me.voice.channelId}>**`)
+                ]
             });
 
             const queue = await client.distube.getQueue(VoiceChannel);
@@ -76,31 +73,12 @@ module.exports = {
                 ]
             });
 
-            const Volume = Number(args[0]);
-
-            if (!Volume) return message.reply({
-                embeds: [new MessageEmbed()
-                    .setColor(ee.mediancolor)
-                    .setTimestamp()
-                    .setTitle(`${client.allEmojis.m} Please specify a number between 1 and 150`)
-                ]
-            });
-
-            if (Volume > 150 || Volume < 1)
-                return message.reply({
-                    embeds: [new MessageEmbed()
-                        .setColor(ee.mediancolor)
-                        .setTimestamp()
-                        .setTitle(`${client.allEmojis.m} Please specify a number between 1 and 150`)
-                    ]
-                });
-
-            client.distube.setVolume(VoiceChannel, Volume);
+            await queue.addRelatedSong(VoiceChannel);
             return message.reply({
                 embeds: [new MessageEmbed()
                     .setColor(ee.color)
                     .setTimestamp()
-                    .setTitle(`${client.allEmojis.music.volume} Volume has been set to \`${Volume}\`!`)
+                    .setTitle(`${client.allEmojis.music.addrelatedsong} A Related Song has been Added.`)
                 ]
             });
 
