@@ -1,78 +1,43 @@
 {
-  "msg": {
-    "COMMENT": "IF YOU DECIDE TO USE CUSTOM EMOJIS, USE THE NAME AND THE ID IN MSG, EXAMPLE: ⬜ --> <:progressbar_left_filled:818558865268408341>",
-
-    "ERROR" : "❌",
-    "SUCCESS" : "✅",
-
-    "disabled" : "❌",
-    "enabled" : "✅",
-
-    "progress_bar": {
-      "leftindicator": "[",
-      "rightindicator": "]",
-
-      "emptyframe": "⬜",
-      "filledframe": "🟧"
-    },
-
-    "playing": "🎶",
-    "pruning": "💬",
-    "equalizer": "🎚",
-    "cleared": "🗑",
-    "leave_on_empty": "🗣️",
-    "time": "⌛",
-    "premium": "💰",
-    "song_by": "💯",
-    "setup": "⚙️",
-    "dj": "🎧",
-    "bot": "🤖",
-    "search": "🔎",
-    "resume": "▶",
-    "pause": "⏸",
-    "lyrics": "📃",
-    "disk": "📀",
-    "ping": "🏓",
-
-    "rewind": "⏪",
-    "forward": "⏩",
-    "pause_resume": "⏯️",
-    "stop": "⏹️",
-    "previous_track": "⏮️",
-    "skip_track": "⏭️",
-    "replay_track": "🔃",
-    "reduce_volume": "🔉",
-    "raise_volume": "🔊",
-    "toggle_mute": "🔇",
-    "repeat_mode": "🔄",
-    "autoplay_mode": "♾",
+  "y": "<:y_:905814084363112548>",
+  "m": "<:m_:901828420097433701>",
+  "x": "<:x_:905814083561996348>",
+  "music": {
+    "searching": "🔍",
+    "play": "<:y_:905814084363112548>",
+    "playImg": "https://images-ext-1.discordapp.net/external/DkPCBVBHBDJC8xHHCF2G7-rJXnTwj_qs78udThL8Cy0/%3Fv%3D1/https/cdn.discordapp.com/emojis/859459305152708630.gif",
+    "pause": "⏸️",
+    "resume": "▶️",
+    "skip": "⏭️",
+    "queue": "📑",
+    "stop": "⏹",
+    "volume": "🔊",
+    "loop": "🔂",
+    "autoplay": "🔁",
     "shuffle": "🔀",
-    "show_queue": "📑",
-    "show_current_track": "🩸"
+    "addrelatedsong": "<:y_:905814084363112548>",
+    "less10Sec": "⏪",
+    "forward10Sec": "⏩",
+    "negative10vol": "🔉",
+    "plus10vol": "🔊"
   },
-  "react": {
-
-    "COMMENT": "IF YOU DECIDE TO USE CUSTOM EMOJIS, USE JUST THE ID IN REACT, EXAMPLE: ⏪ --> 818558865268408341",
-
-    "ERROR" : "❌",
-    "SUCCESS" : "✅",
-
-
-    "rewind": "⏪",
-    "forward": "⏩",
-    "pause_resume": "⏯️",
-    "stop": "⏹️",
-    "previous_track": "⏮️",
-    "skip_track": "⏭️",
-    "replay_track": "🔃",
-    "reduce_volume": "🔉",
-    "raise_volume": "🔊",
-    "toggle_mute": "🔇",
-    "repeat_mode": "🔄",
-    "autoplay_mode": "♾",
+  "musicButtons": {
+    "pause": "⏸️",
+    "resume": "▶️",
+    "skip": "⏭️",
+    "queue": "📑",
+    "lyrics": "📝",
+    "stop": "⏹",
+    "loop": "🔂",
+    "autoplay": "🔁",
     "shuffle": "🔀",
-    "show_queue": "📑",
-    "show_current_track": "🩸"
+    "less10Sec": "⏪",
+    "forward10Sec": "⏩",
+    "negative10vol": "🔉",
+    "plus10vol": "🔊"
+  },
+  "giveaway": {
+    "react": "<a:M_giveaways:901776001460236308>",
+    "drop": "<a:M_giftbot:915259307648495637>"
   }
-
 }
